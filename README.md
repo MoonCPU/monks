@@ -7,15 +7,13 @@ Technologies used include:
 - Google Apps Script (backend)
 - HTML & JavaScript (frontend)
 
-
-## 2. Code Structure
 The codebase is divided into three files:
 - Code.gs: Backend logic written in Google Apps Script. Responsible for fetching and filtering spreadsheet data based on form inputs, and for transforming certain values for UI display.
 - Index.html: The frontend of the application. Contains the filter form and the JavaScript code that communicates with the backend.
 - Stylesheet.html: Contains CSS rules used to style the UI.
 
 
-## 3. Project Logic
+## 2. Code Logic
 
 <details>
   <summary><h4>Frontend to Backend and Vice-Versa Communication</h4></summary>
@@ -218,3 +216,64 @@ function filterProducts(filters) {
 - The backend reads the spreadsheet, applies the filter logic, and returns the matching rows.
   
 - The frontend receives the filtered data and dynamically renders it as an HTML table in the UI.
+
+
+## 3. Maintenance Considerations
+
+<details>
+  <summary><h4>New Columns</h4></summary>
+  Column positions in the spreadsheet are mapped using their header names rather than fixed indexes.
+
+  ```javascript
+    const priceIndex = headers.indexOf("PRICE");
+  ```
+
+  Instead of:
+  ```javascript
+     const price = row[8];
+  ```
+
+  This approach ensures that the correct data is always retrieved, even if the position of the columns gets shuffled in the future. If new columns are added, they can be easily integrated into the filtering logic by simply referencing their names.
+</details>
+
+<details>
+  <summary><h4>Questionable Data (Size 1–7)</h4></summary>
+  There are a few rows in the spreadsheet with clothing sizes ranging from 1 to 7, which are children’s clothing. However, these rows are currently labeled as adult products (AGE_GROUP = adults).
+  
+  These rows might be faulty data that were meant to be cleaned out, but since it was not clear, they are being classified as size "PP" for now.
+
+  ```javascript
+    if (gender == "female") {
+      if (num <= 36) return "pp";
+    }
+
+    if (gender == "male") {
+      if (num <= 40) return "pp";
+    }
+  ```
+</details>
+
+<details>
+  <summary><h4>Displayed Fields in the UI</h4></summary>
+  In the HTML interface, only a subset of product data was chosen to give a meaningful and compact overview of each product to the user:
+  
+  <br>
+  [ ID, Product, Brand, Price, Color, Size, Gender, Condition, Availability ]
+  <br><br>
+  
+  Additional fields can be added or removed from the UI table with by updating the map() logic in the JavaScript rendering function. 
+  
+  For example, if the client only wants the Product name, Price and Color:
+
+  ```javascript
+  <tbody>
+    ${products.map(prod => `
+      <tr>
+        <td>${prod.product}</td>
+        <td>R$${prod.price}</td>
+        <td>${prod.color}</td>      
+      </tr>
+    `).join("")}
+  </tbody>
+  ```
+  
