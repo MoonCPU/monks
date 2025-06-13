@@ -15,10 +15,10 @@ The codebase is divided into three files:
 - Stylesheet.html: Contains CSS rules used to style the UI.
 
 
-## 3. Code Logic
+## 3. Project Logic
 
 <details>
-  <summary><h3>Frontend to Backend and Vice-Versa Communication (click to expand)</h3></summary>
+  <summary><h4>Frontend to Backend and Vice-Versa Communication</h4></summary>
   The UI form lets users optionally filter the spreadsheet data by minimum price (minPrice), maximum price (maxPrice), color, size, and gender. If no filters are applied, the full dataset is returned.<br><br>
   
   Frontend Form (simplified):
@@ -59,3 +59,162 @@ The codebase is divided into three files:
     // Read spreadsheet, apply filters, return matching rows
   }
   ```
+</details>
+
+<details>
+  <summary><h4>Backend Filtering Logic</h4></summary>
+  The backend logic lives in the filterProducts(filters) function in Code.gs. It is responsible for:
+    
+  - Reading all data from the "Base products" spreadsheet.
+  - Extracting column indices for fields like PRICE, COLOR, SIZE, etc.
+  - Normalizing size values with the help of a helper function (classifySize()). 
+  - Filtering rows based on the provided filters from the frontend.
+  - Send filtered rows back to frotend, so it can be displayed in the UI.
+
+
+```javascript
+function filterProducts(filters) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Base products');
+  // Skip the header row; we only want the data rows
+  const rows = sheet.getDataRange().getValues().slice(1); 
+
+  const filtered = rows
+    .filter(row => {
+      const price = parseFloat(row[...]);
+      const color = row[...];
+      const gender = row[...];
+      const size = classifySize(row[...], gender);
+
+      // Apply filters only if they were provided in the frontend form
+      // If the row passes all provided filters, keep it. If not, remove it
+      if (filters.minPrice != null && price < filters.minPrice) return false;
+      if (filters.maxPrice != null && price > filters.maxPrice) return false;
+      if (filters.color && filters.color !== color) return false;
+      if (filters.size && filters.size !== size) return false;
+      if (filters.gender && filters.gender !== gender) return false;
+    })
+    .map(row => ({
+      id: row[...],
+      product: row[...],
+      brand: row[...],
+      price: row[...],
+      availability: row[...],
+      color: row[...],
+      size: classifySize(row[...], row[...]),
+      gender: row[...],
+      condition: row[...]
+    }));
+  // Send the filtered object back to the Frontend
+  return filtered;
+}
+```
+</details>
+
+<details>
+  <summary><h4>Size Normalization Logic</h4></summary>
+  The sizes in the spreadsheet are sometimes stored as numerical values (e.g., 36, 44), while others are string-based (e.g., "P", "G"). We normalize all sizes into string categories ("pp", "p", "m", "g" and "xgg") using the classifySize() function.<br><br>
+  
+  ```javascript
+  function classifySize(rawSize, gender) {
+    const num = parseInt(rawSize);
+  
+    // If num is not a number, the rawSize is returned as is, because it's already a string-based size label ("p", "m", "g", etc)
+    if (isNaN(num)) return rawSize;
+  
+    // Clothes size differ between male and female, so we run an if check for the gender
+    if (gender == "female") {
+      if (num <= 36) return "pp";
+      if (num <= 40) return "p";
+      if (num <= 44) return "m";
+      if (num <= 48) return "g";
+      if (num <= 52) return "gg";
+      return "xgg";
+    }
+  
+    if (gender == "male") {
+      if (num <= 40) return "pp";
+      if (num <= 44) return "p";
+      if (num <= 50) return "m";
+      if (num <= 54) return "g";
+      if (num == 56) return "gg";
+      return "xgg";
+    }
+  
+    // There is only one product of gender "unisex" of number 38, equivalent to a "p" size
+    if (gender == "unisex" && num == 38) return "p";
+    
+    return null;
+  }
+  ```
+</details>
+
+<details>
+  <summary><h4>Rendering Filtered Results on the Frontend UI</h4></summary>
+  After filtering the data on the backend, the frontend receives a list of matching products. These are rendered dynamically into the DOM using JavaScript.
+
+  ```html
+  // This is where all output (loading, results, or errors) will be shown 
+  <div id="results"></div>
+  ```
+
+  In the JavaScript, a reference to this element is stored:
+  ```javascript
+  const container = document.getElementById("results");
+  ```
+
+  This container variable is then used to update the UI with the results in a table format, or error messages, depending on the response:
+  ```javascript
+  google.script.run
+    // If request was successful:
+    .withSuccessHandler(products => {
+      // 1 - Check if products are empty
+      if (!products || products.length === 0) {
+        ...etc
+      }
+  
+      // 2 - If products are not empty, convert products into HTML table rows
+      const html = `
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product</th>
+              <th>Price</th>
+              ...etc
+            </tr>
+          </thead>
+          <tbody>
+            ${products.map(p => `
+              <tr>
+                <td>${p.id}</td>
+                <td>${p.product}</td>
+                <td>R$${p.price}</td>
+                ...etc 
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+
+      // 3 - Display the table inside the container div
+      container.innerHTML = html;
+
+      })
+      // Handling failure
+      .withFailureHandler(() => {
+        ...etc
+      })
+      // Sending filters data to backend
+      .filterProducts(filters);
+  ```
+</details>
+
+<h3>Summary</h3>
+
+- The user fills out the HTML form with filter criteria (e.g., price range, color, size, gender).
+
+- These inputs are sent to the backend via google.script.run, calling the filterProducts() function.
+  
+- The backend reads the spreadsheet, applies the filter logic, and returns the matching rows.
+  
+- The frontend receives the filtered data and dynamically renders it as an HTML table in the UI.
