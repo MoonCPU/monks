@@ -6,6 +6,12 @@ function filterProducts(filters){
   const headers = allData[0];
   const rows = allData.slice(1);
 
+  //checking if columns exist, if not, return error
+  const required_cols = ["ID", "TITLE", "BRAND", "PRICE", "AVAILABILITY", "COLOR", "SIZE", "GENDER", "CONDITION"];
+  required_cols.forEach(col => {
+    if (!headers.includes(col)) throw new Error(`[CRITICAL] Missing column: ${col}`);
+  });
+
   const idIndex = headers.indexOf("ID");
   const productIndex = headers.indexOf("TITLE");
   const brandIndex = headers.indexOf("BRAND");
