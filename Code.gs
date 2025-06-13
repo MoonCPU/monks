@@ -82,7 +82,7 @@ function classifySize(rawSize, gender) {
       if (num == 56) return "gg";
       if (num > 56) return "xgg";
     }
-    // só tem um row do gender "unisex", com size 38, equivalente a um tamanho "p"
+    // There is only one product of gender "unisex" of number 38, equivalent to a "p" size
     if (gender == "unisex") {
       if (num == 38) return "p";
     }
