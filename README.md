@@ -12,8 +12,9 @@ The codebase is divided into three files:
 - Index.html: The frontend of the application. Contains the filter form and the JavaScript code that communicates with the backend.
 - Stylesheet.html: Contains CSS rules used to style the UI.
 
+<br>
 
-## 2. How To Set Up Project
+## 2. How To Set Up Project 
 1. Make a Copy of the Original Spreadsheet  
    - Go to the following Google Sheet: [Original Dataset (Google Sheets)](https://docs.google.com/spreadsheets/d/1CfsTZKYr2-cnPqmaLUSzBwIzzOnIw4owgwsPzONYgJ4/edit?usp=sharing)  
    - Use File > Make a copy to duplicate it into your own Google Drive.
@@ -29,11 +30,12 @@ The codebase is divided into three files:
        - Index.html 
        - Stylesheet.html 
 
-4. Authorize the Script  
-   - In the Script Editor, select any function (e.g. filterProducts) and click Run.  
-   - Google will prompt you to authorize access. Allow it.
-
-   
+4. Deploy the App  
+   - Inside Apps Script, go to Deploy > New deployment.
+   - Fill the Description, Web App and Access, then click on Deploy.
+   - You can now access the deployed app via the app URL.
+  
+<br>
 
 ## 3. Code Logic
 
@@ -61,10 +63,9 @@ The codebase is divided into three files:
       size: ...,
       gender: ...
     };
-  
-    // Show loading feedback
-    document.getElementById("results").innerHTML = "...";
-  
+
+   ...etc
+
     // Call Apps Script backend with filters
     google.script.run
       .withSuccessHandler(...) // handle result
@@ -173,27 +174,27 @@ function filterProducts(filters) {
   After filtering the data on the backend, the frontend receives a list of matching products. These are rendered dynamically into the DOM using JavaScript.
 
   ```html
-  // This is where all output (loading, results, or errors) will be shown 
+  // This is where all output (loading, results, or errors) will be rendered 
   <div id="results"></div>
   ```
 
-  In the JavaScript, a reference to this element is stored:
+  The reference to this element is stored in Javascript:
   ```javascript
-  const container = document.getElementById("results");
+  const resultsContainer = document.getElementById("results");
   ```
 
   This container variable is then used to update the UI with the results in a table format, or error messages, depending on the response:
   ```javascript
   google.script.run
-    // If request was successful:
+    // If request was successful, we need to:
     .withSuccessHandler(products => {
       // 1 - Check if products are empty
       if (!products || products.length === 0) {
         ...etc
       }
   
-      // 2 - If products are not empty, convert products into HTML table rows
-      const html = `
+      // 2 - If products are not empty, display the data in table tags
+      resultsContainer.innerHTML = `
         <table>
           <thead>
             <tr>
@@ -215,14 +216,9 @@ function filterProducts(filters) {
           </tbody>
         </table>
       `;
-
-      // 3 - Display the table inside the container div
-      container.innerHTML = html;
-
-      })
       // Handling failure
       .withFailureHandler(() => {
-        ...etc
+        ...error message
       })
       // Sending filters data to backend
       .filterProducts(filters);
@@ -239,6 +235,7 @@ function filterProducts(filters) {
   
 - The frontend receives the filtered data and dynamically renders it as an HTML table in the UI.
 
+<br>
 
 ## 4. Maintenance Considerations
 
