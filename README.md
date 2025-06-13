@@ -13,7 +13,29 @@ The codebase is divided into three files:
 - Stylesheet.html: Contains CSS rules used to style the UI.
 
 
-## 2. Code Logic
+## 2. How To Set Up Project
+1. Make a Copy of the Original Spreadsheet  
+   - Go to the following Google Sheet: [Original Dataset (Google Sheets)](https://docs.google.com/spreadsheets/d/1CfsTZKYr2-cnPqmaLUSzBwIzzOnIw4owgwsPzONYgJ4/edit?usp=sharing)  
+   - Use File > Make a copy to duplicate it into your own Google Drive.
+   - Make sure that the copied spreadsheet has a tab named exactly "Base products", without the quotes.
+  
+2. Open the Script Editor  
+   - In your copied sheet, go to Extensions > Apps Script.  
+   - This opens the script project attached to the spreadsheet.
+
+3. Create and Populate the Script Files  
+   - Replace any default content in Code.gs with the content from this repo’s Code.gs.
+   - Create two new files and paste corresponding code from this repo:
+       - Index.html 
+       - Stylesheet.html 
+
+4. Authorize the Script  
+   - In the Script Editor, select any function (e.g. filterProducts) and click Run.  
+   - Google will prompt you to authorize access. Allow it.
+
+   
+
+## 3. Code Logic
 
 <details>
   <summary><h4>Frontend to Backend and Vice-Versa Communication</h4></summary>
@@ -218,7 +240,7 @@ function filterProducts(filters) {
 - The frontend receives the filtered data and dynamically renders it as an HTML table in the UI.
 
 
-## 3. Maintenance Considerations
+## 4. Maintenance Considerations
 
 <details>
   <summary><h4>New Columns</h4></summary>
