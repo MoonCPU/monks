@@ -82,7 +82,7 @@ function classifySize(rawSize, gender) {
       if (num == 56) return "gg";
       if (num > 56) return "xgg";
     }
-    // There is only one product of gender "unisex" of number 38, equivalent to a "p" size
+    // there is only one product of gender "unisex" of number 38, equivalent to a "p" size
     if (gender == "unisex") {
       if (num == 38) return "p";
     }
@@ -90,7 +90,6 @@ function classifySize(rawSize, gender) {
   return null;
 }
 
-// Utility functions
 // creates the onOpen meny on the spreadsheet page, use only for dev
 function onOpen() {
   const ui = SpreadsheetApp.getUi();
