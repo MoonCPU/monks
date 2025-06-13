@@ -7,7 +7,7 @@ As we discussed, I’ve finished developing the app that allows you to automatic
 
 How to use:
 1. Open the app using this link:  
-   https://script.google.com/macros/s/AKfycbywJEDDx-0a6kevQ7xt_9VOGYHFXKD8EOFJK0O30iLt6iRIagHJudj06smxyP8waSVD/exec
+   https://script.google.com/macros/s/AKfycbyYF5uN6m1x2HDtxBCdNQjg1zh2tVZGABNh4YBOZwTl00h9hPr155nIqgxcQtv-CSeq/exec
 
 2. Use the form to select any filters you’d like — they’re completely optional.  
    - You can leave all fields empty to see all rows.  
