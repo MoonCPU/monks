@@ -12,6 +12,9 @@ The codebase is divided into three files:
 - Index.html: The frontend of the application. Contains the filter form and the JavaScript code that communicates with the backend.
 - Stylesheet.html: Contains CSS rules used to style the UI.
 
+You can access the production app at this link: [Open App](https://script.google.com/macros/s/AKfycbywJEDDx-0a6kevQ7xt_9VOGYHFXKD8EOFJK0O30iLt6iRIagHJudj06smxyP8waSVD/exec)
+
+
 <br>
 
 ## 2. How To Set Up Project 
