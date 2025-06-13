@@ -1,0 +1,24 @@
+Subject: Product Filtering Tool – How to Use
+
+Hi Clara,
+I hope you're doing well.
+
+As we discussed, I’ve finished developing the app that allows you to automatically filter products in the spreadsheet using the filters you choose. Below are the step-by-step instructions on how to use it:
+
+How to use:
+1. Open the app using this link:  
+   https://script.google.com/macros/s/AKfycbywJEDDx-0a6kevQ7xt_9VOGYHFXKD8EOFJK0O30iLt6iRIagHJudj06smxyP8waSVD/exec
+
+2. Use the form to select any filters you’d like — they’re completely optional.  
+   - You can leave all fields empty to see all rows.  
+   - You can also filter by any number and combination of fields you'd like, such as gender and size.
+
+3. Click the "Filter" button. The filtered results will appear in the same page.  
+   - To apply new filters, click "Back to filters" at the top of the page to return to the form.
+
+The tool is already installed and deployed — no technical setup is required. Just open the link and use it.
+
+Let me know if you have any questions or feedback.
+
+Best regards,  
+Moon Hyuk Kang
