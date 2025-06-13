@@ -1,6 +1,9 @@
 <h1 align="center" color="red">Monks Test Case</h1>
 
 ## 1. Project Overview
+
+You can access the production app at this link: [Prod App](https://script.google.com/macros/s/AKfycbywJEDDx-0a6kevQ7xt_9VOGYHFXKD8EOFJK0O30iLt6iRIagHJudj06smxyP8waSVD/exec)
+
 This project was developed as part of the .Monks Software Engineer position case test. The challenge was to build a web application using Google Apps Script that allows users to filter a spreadsheet of product data based on selected criteria. The main objective was to automate a time-consuming manual process and improve the company’s analytical workflows.
 
 Technologies used include:
@@ -11,9 +14,6 @@ The codebase is divided into three files:
 - Code.gs: Backend logic written in Google Apps Script. Responsible for fetching and filtering spreadsheet data based on form inputs, and for transforming certain values for UI display.
 - Index.html: The frontend of the application. Contains the filter form and the JavaScript code that communicates with the backend.
 - Stylesheet.html: Contains CSS rules used to style the UI.
-
-You can access the production app at this link: [Open App](https://script.google.com/macros/s/AKfycbywJEDDx-0a6kevQ7xt_9VOGYHFXKD8EOFJK0O30iLt6iRIagHJudj06smxyP8waSVD/exec)
-
 
 <br>
 
